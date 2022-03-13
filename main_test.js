@@ -1,60 +1,39 @@
-// getting the text element
 const textElement = document.getElementById('text');
-// getting the option button element
+
 const optionButtonsElement = document.getElementById('option-buttons');
 
-//empty object that allows us to keep track of what the character has on them
 let state = {};
-// function to start the game
+
 function startGame() {
-  // making sure state is an empty object
   state = {};
-  // also making sure that the next textnode is showing and making sure it's the first one
+
   showTextNode(1);
 }
-// a function to display whichever option the user is on
-// this is going to take a particular index of a text node
 
 function showTextNode(textNodeIndex) {
-  // get text node which is going to be equal to text notes
-  // and this is going to take in a text node for each one in the array
-  // this will also allow us to find the one that has the current ID thats why we use textNode.id
-  // and make it to say Textnode.id is going to be equal to text node index
   const textNode = textNodes.find((textNode) => textNode.id === textNodeIndex);
-  // to show the text we set the inner text of the text element equal to that textnode
+
   textElement.innerText = textNode.text;
 
-  // to remove all the options, use a while loop to say the optionbuttonelement.firstchild
-  // while it has a first child we want to remove that child
   while (optionButtonsElement.firstChild) {
     optionButtonsElement.removeChild(optionButtonsElement.firstChild);
   }
-  // a loop through all of the options
+
   textNode.options.forEach((option) => {
-    // checking to see if we can actuall show that node
     if (showOption(option)) {
       const button = document.createElement('button');
       button.innerText = option.text;
       button.classList.add('btn');
-      // click event listener which takes a single function
+
       button.addEventListener('click', () => selectOption(option));
       optionButtonsElement.appendChild(button);
     }
   });
 }
-function myFunction() {
-  let person = prompt('Please enter your name', 'Harry Potter');
-  if (person != null) {
-    document.getElementById('demo').innerHTML =
-      'Hello ' + person + '! How are you today?';
-  }
-}
+
 function showOption(option) {
   return option.requiredState == null || option.requiredState(state);
 }
-// a function that happens every time the user selects an option
-// this will take what ever option that the user selects
-//since we need to know what option the user is selecting
 
 function selectOption(option) {
   const nextTextNodeId = option.nextText;
@@ -64,27 +43,23 @@ function selectOption(option) {
   state = Object.assign(state, option.setState);
   showTextNode(nextTextNodeId);
 }
-// the text nodes being defined in a variable
+
 const textNodes = [
   {
-    //an object which is going to have an ID and 1 will be our very first textnode
     id: 1,
-    text: 'You wake up a room in the top floor. you see a touch, do you take the flashlight?',
+    text: 'You wake up a room in the top floor. you see a flashlight, do you take the flashlight?',
 
-    //different options for the user
     options: [
       {
         text: 'Take the flashlight',
-        //if the user takes the flashlight,
-        //we need to set the state for the flashlight to be true since the character now has a flashlight
+
         setState: {
           flashlight: true,
         },
-        //an option that will also tell us what the next textNode is
+
         nextText: 2,
       },
       {
-        //since the player doesn't take the flashlight, we don't need to setState
         text: 'Leave the flashlight',
         nextText: 2,
       },
@@ -129,7 +104,7 @@ const textNodes = [
         nextText: 4,
       },
       {
-        text: 'sleep on the bed',
+        text: 'sleep in the bed',
         nextText: 5,
       },
     ],
@@ -215,7 +190,7 @@ const textNodes = [
     text: 'You shine the flashlight at the monster and it runs away',
     options: [
       {
-        text: 'Congratulations. Play Again.',
+        text: 'you laugh as you survive another night against the monster',
         nextText: -1,
       },
     ],
